@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Remielle Desktop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container" id="app-container">
+        
+        <div class="chat-area">
+            <div id="chat-bubble" class="chat-bubble hidden">
+                <div class="chat-content" id="chat-content">Xin chào, tôi là Remielle!</div>
+            </div>
+            
+            <div class="input-container" id="input-container">
+                <input type="text" id="user-input" placeholder="Nhắn tin cho Remielle..." />
+                <button id="send-btn">Gửi</button>
+            </div>
+        </div>
+        
+        <div class="avatar-container" id="avatar-container">
+            <img id="avatar-img" src="assets/waiting_user_input.gif" alt="Remielle">
+        </div>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+</html>
