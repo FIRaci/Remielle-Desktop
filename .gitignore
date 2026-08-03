@@ -3,3 +3,4 @@ app.log
 dist/
 out/
 *.log
+.DS_Store

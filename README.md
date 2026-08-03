@@ -3,7 +3,7 @@
 Một trợ lý desktop (desktop pet) dễ thương, đáng yêu, sống trên màn hình máy tính của bạn — luôn luôn ở trên cùng, sẵn sàng trò chuyện bất cứ khi nào bạn cần. UwU :3
 
 <p align="center">
-  <img src="assets/ai_thinking.gif" alt="Remielle đang suy nghĩ" width="200">
+  <img src="assets/ai_thingking.gif" alt="Remielle đang suy nghĩ" width="200">
 </p>
 
 ## Tính năng
