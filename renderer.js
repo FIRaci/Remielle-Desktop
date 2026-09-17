@@ -71,14 +71,14 @@ window.addEventListener('mouseup', () => {
 });
 
 // UI Toggles
-let isInputVisible = true;
+let isInputVisible = false;
 
-window.addEventListener('mousedown', (e) => {
-  // Ctrl + Mouse 4 or 5
-  if (e.ctrlKey && (e.button === 3 || e.button === 4)) {
-    isInputVisible = !isInputVisible;
-    inputContainer.style.opacity = isInputVisible ? '1' : '0';
-    inputContainer.style.pointerEvents = isInputVisible ? 'auto' : 'none';
+window.electronAPI.onToggleInput(() => {
+  isInputVisible = !isInputVisible;
+  inputContainer.style.opacity = isInputVisible ? '1' : '0';
+  inputContainer.style.pointerEvents = isInputVisible ? 'auto' : 'none';
+  if (isInputVisible) {
+    userInput.focus();
   }
 });
 
@@ -142,8 +142,27 @@ async function sendMessage() {
   userInput.value = '';
   setState(STATES.AI_THINKING);
 
-  window.electronAPI.chat(text);
+  window.electronAPI.chat({ text, sender: 'user' });
 }
+
+let isRespondingToCyrene = false;
+
+window.electronAPI.onIncomingCyreneMessage((msg) => {
+  if (isProcessing) return; // Ignore if currently busy
+  
+  isRespondingToCyrene = true;
+  isProcessing = true;
+  userInput.disabled = true;
+  sendBtn.disabled = true;
+  
+  clearTimers();
+  currentMessage = "";
+  hideBubble();
+  userInput.value = '';
+  setState(STATES.AI_THINKING);
+
+  window.electronAPI.chat({ text: msg, sender: 'cyrene' });
+});
 
 // Handle streaming responses
 window.electronAPI.onChatChunk((data) => {
@@ -170,6 +189,15 @@ window.electronAPI.onChatComplete((data) => {
         setState(STATES.WAITING);
         hideBubble();
     }, 5000);
+
+    if (isRespondingToCyrene) {
+      isRespondingToCyrene = false;
+      fetch('http://localhost:39393/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: currentMessage })
+      }).catch(err => console.error("Error sending to Cyrene:", err));
+    }
   }
 });
 

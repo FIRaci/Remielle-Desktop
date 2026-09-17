@@ -6,5 +6,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   moveWindowBy: (dx, dy) => ipcRenderer.send('move-window-by', dx, dy),
   onChatChunk: (callback) => ipcRenderer.on('chat-chunk', (_event, data) => callback(data)),
   onChatComplete: (callback) => ipcRenderer.on('chat-complete', (_event, data) => callback(data)),
-  onChatError: (callback) => ipcRenderer.on('chat-error', (_event, data) => callback(data))
+  onChatError: (callback) => ipcRenderer.on('chat-error', (_event, data) => callback(data)),
+  onToggleInput: (callback) => ipcRenderer.on('toggle-input', () => callback()),
+  onIncomingCyreneMessage: (callback) => ipcRenderer.on('incoming-cyrene-message', (_event, msg) => callback(msg))
 });
